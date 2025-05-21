@@ -1,0 +1,29 @@
+import maya.cmds as cmds
+
+
+#  -  USER INPUTS  -
+# Total number of Frames
+Frames = 320
+# Pose every # of Frames
+Split = 10
+
+
+#Target all 5 parts of the C3P-O Model
+itemShape0=(cmds.ls(typ='mesh')[0])
+itemShape1=(cmds.ls(typ='mesh')[1])
+itemShape2=(cmds.ls(typ='mesh')[2])
+itemShape3=(cmds.ls(typ='mesh')[3])
+itemShape4=(cmds.ls(typ='mesh')[4])
+
+#Select all 5 parts
+cmds.select([itemShape0.replace('Shape',''),itemShape1.replace('Shape',''),itemShape2.replace('Shape',''),itemShape3.replace('Shape',''),itemShape4.replace('Shape','')])
+
+for x in range(1, Frames + 1):
+    if x % Split == 0:
+        cmds.currentTime( x )
+        number = int(x / 10)
+        #Set Filepath
+        filepath=r'C:\Users\andre\Desktop\Exports Test\FIRE' + str(number) + '.obj'
+        #Export all selected parts to OBJ file
+        cmds.file(filepath, type = "OBJexport", options = "groups=0;ptgroups=0;materials=0;smoothing=0;normals=0", exportSelected = True)
+
